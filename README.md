@@ -1,2 +1,0 @@
-# iforeteller.github.io
-blog
