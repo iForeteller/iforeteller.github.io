@@ -1,322 +1,612 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)http://flash1.7k7k.com/h5/2015/jdelsfk/index.html -->
-<html manifest="offline.appcache"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>若思夢</title>
-	<style type="text/css">
-	#desktop-ad0 {
-			display: block;
-			background: #000;
-			margin-left: -150px;
-			margin-bottom -150px;
-			width: 300px;
-			height: 270px;
-			position: absolute;
-			bottom: 35%;
-			left: 50%;
-			z-Index: 1000;	
-		}
-			#desktop-ad1 {
-			display: block;
-			background: #000;
-			margin-left: -150px;
-			margin-bottom -150px;
-			width: 300px;
-			height: 270px;
-			position: absolute;
-			bottom: 35%;
-			left: 50%;
-			z-Index: 1000;	
-		}
-			#desktop-ad2 {
-			display: block;
-			background: #000;
-			margin-left: -150px;
-			margin-bottom -150px;
-			width: 300px;
-			height: 270px;
-			position: absolute;
-			bottom: 35%;
-			left: 50%;
-			z-Index: 1000;	
-		}
-		</style>
-	<!-- Standardised web app manifest -->
-	<link rel="manifest" href="http://flash1.7k7k.com/h5/2015/jdelsfk/appmanifest.json">
-	
-	<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="apple-touch-icon" sizes="256x256" href="http://flash1.7k7k.com/h5/2015/jdelsfk/icon-256.png">
-	<meta name="HandheldFriendly" content="true">
-	
-	<!-- Chrome for Android web app tags -->
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="shortcut icon" sizes="256x256" href="http://flash1.7k7k.com/h5/2015/jdelsfk/icon-256.png">
-
-    <!-- All margins and padding must be zero for the canvas to fill the screen. -->
-	<style type="text/css">
-		* {
-			padding: 0;
-			margin: 0;
-		}
-		html, body {
-			background: #000;
-			color: #fff;
-			overflow: hidden;
-			touch-action: none;
-			-ms-touch-action: none;
-		}
-		canvas {
-			touch-action-delay: none;
-			touch-action: none;
-			-ms-touch-action: none;
-		}
-    </style>
-	
-
-<style type="text/css" abt="234"></style><script>//console.log('a')
-</script><script>doAdblock();
-function doAdblock(){
-    (function() {
-        function A() {}
-        A.prototype = {
-            rules: {
-                'pps_pps': {
-                    'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
-                    'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
-                },
-                '17173_in':{
-                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf/,
-                    'replace':"http://swf.adtchrome.com/17173_in_20150522.swf"
-                },
-                '17173_out':{
-                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf/,
-                    'replace':"http://swf.adtchrome.com/17173_out_20150522.swf"
-                },
-                '17173_live':{
-                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf/,
-                    'replace':"http://swf.adtchrome.com/17173_stream_20150522.swf"
-                },
-                '17173_live_out':{
-                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf/,
-                    'replace':"http://swf.adtchrome.com/17173.out.Live.swf"
-                }
-            },
-            _done: null,
-            get done() {
-                if(!this._done) {
-                    this._done = new Array();
-                }
-                return this._done;
-            },
-            addAnimations: function() {
-                var style = document.createElement('style');
-                style.type = 'text/css';
-                style.innerHTML = 'object,embed{\
-                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
-                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
-                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
-                animation-duration:.001s;animation-name:playerInserted;}\
-                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
-                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
-                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
-                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
-                document.getElementsByTagName('head')[0].appendChild(style);
-            },
-            animationsHandler: function(e) {
-                if(e.animationName === 'playerInserted') {
-                    this.replace(e.target);
-                }
-            },
-            replace: function(elem) {
-                if (/http:\/\/v.youku.com\/v_show\/.*/.test(window.location.href)){
-                    var tag = document.getElementById("playerBox").getAttribute("player")
-                    if (tag == "adt"){
-                        console.log("adt adv")
-                        return;
-                    }
-                }
-                if(this.done.indexOf(elem) != -1) return;
-                this.done.push(elem);
-                var player = elem.data || elem.src;
-                if(!player) return;
-                var i, find, replace = false;
-                for(i in this.rules) {
-                    find = this.rules[i]['find'];
-                    if(find.test(player)) {
-                        replace = this.rules[i]['replace'];
-                        if('function' === typeof this.rules[i]['preHandle']) {
-                            this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
-                        }else{
-                            this.reallyReplace.bind(this, elem, find, replace)();
-                        }
-                        break;
-                    }
-                }
-            },
-            reallyReplace: function(elem, find, replace) {
-                elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
-                var b = elem.querySelector("param[name='movie']");
-                this.reloadPlugin(elem);
-            },
-            reloadPlugin: function(elem) {
-                var nextSibling = elem.nextSibling;
-                var parentNode = elem.parentNode;
-                parentNode.removeChild(elem);
-                var newElem = elem.cloneNode(true);
-                this.done.push(newElem);
-                if(nextSibling) {
-                    parentNode.insertBefore(newElem, nextSibling);
-                } else {
-                    parentNode.appendChild(newElem);
-                }
-            },
-            init: function() {
-                var handler = this.animationsHandler.bind(this);
-                document.body.addEventListener('webkitAnimationStart', handler, false);
-                document.body.addEventListener('msAnimationStart', handler, false);
-                document.body.addEventListener('oAnimationStart', handler, false);
-                document.body.addEventListener('animationstart', handler, false);
-                this.addAnimations();
-            }
-        };
-        new A().init();
-    })();
-}
-// 20140730
-(function cnbeta() {
-    if (document.URL.indexOf('cnbeta.com') >= 0) {
-        var elms = document.body.querySelectorAll("p>embed");
-        Array.prototype.forEach.call(elms, function(elm) {
-            elm.style.marginLeft = "0px";
-        });
-    }
-})();
-//baidu
-if(document.URL.indexOf('www.baidu.com') >= 0){
-    if(document && document.getElementsByTagName && document.getElementById && document.body){
-        var aa = function(){
-            var all = document.body.querySelectorAll("#content_left div,#content_left table");
-            for(var i = 0; i < all.length; i++){
-                if(/display:\s?(table|block)\s!important/.test(all[i].getAttribute("style"))){all[i].style.display= "none";all[i].style.visibility='hidden';}
-            }
-            all = document.body.querySelectorAll('.result.c-container[id="1"]');
-            //if(all.length == 1) return;
-            for(var i = 0; i < all.length; i++){
-                if(all[i].innerHTML && all[i].innerHTML.indexOf('广告')>-1){
-                    all[i].style.display= "none";all[i].style.visibility='hidden';
-                }
-            }
-        }
-        aa();
-        document.getElementById('wrapper_wrapper').addEventListener('DOMSubtreeModified',aa)
-    };
-}
-// 20140922
-(function kill_360() {
-    if (document.URL.indexOf('so.com') >= 0) {
-        document.getElementById("e_idea_pp").style.display = none;
-    }
-})();
-if (document.URL.indexOf("tv.sohu.com") >= 0){
-    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
-}
-if (document.URL.indexOf("56.com") >= 0){
-    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
-}
-if (document.URL.indexOf("iqiyi.com") >= 0){
-    if (document.cookie.indexOf("player_forcedType=h5_VOD")==-1){
-        document.cookie='player_forcedType=h5_VOD'
-        if(localStorage.reloadTime && Date.now() - parseInt(localStorage.reloadTime)<60000){
-            console.log('no reload')
-        }else{
-            location.reload()
-            localStorage.reloadTime = Date.now();
-        }
-    }
-}
-</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style></head> 
  
-<body mycollectionplug="bind"> 
-	<div id="fb-root"></div>
-	
-	<script>
-	// Issue a warning if trying to preview an exported project on disk.
-	(function(){
-		// Check for running exported on file protocol
-		if (window.location.protocol.substr(0, 4) === "file")
-		{
-			alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
-		}
-	})();
-	</script>
-	
-	<!-- The canvas must be inside a div called c2canvasdiv -->
-	<div id="c2canvasdiv" style="width: 626px; height: 1112px; margin-left: 87px; margin-top: 0px;">
-	
-		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
-		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
-		<canvas id="c2canvas" width="626" height="1112" style="width: 626px; height: 1112px;">
-			<!-- This text is displayed if the visitor's browser does not support HTML5.
-			You can change it, but it is a good idea to link to a description of a browser
-			and provide some links to download some popular HTML5-compatible browsers. -->
-			<h1>Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a href="http://www.whatbrowser.org/">What is a browser?</a>
-			<br><br><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br>
-			<a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br>
-			<a href="http://www.google.com/chrome/">Google Chrome</a><br>
-			<a href="http://www.apple.com/safari/download/">Apple Safari</a><br>
-			<a href="http://www.google.com/chromeframe">Google Chrome Frame for Internet Explorer</a><br></h1>
-		</canvas>
-		
-
-
-	<script src="./index/ads.js"></script>
-	<!-- Pages load faster with scripts at the bottom -->
-	
-	<!-- Construct 2 exported games require jQuery. -->
-	<script src="./index/jquery-2.1.1.min.js"></script>
-
-
-	
-    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
-    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
-	<script src="./index/c2runtime.js"></script>
-
-    <script>
-		// Size the canvas to fill the browser viewport.
-		jQuery(window).resize(function() {
-			cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
-		});
-		
-		// Start the Construct 2 project running on window load.
-		jQuery(document).ready(function ()
-		{			
-			// Create new runtime using the c2canvas
-			cr_createRuntime("c2canvas");
-		});
-		
-		// Pause and resume on page becoming visible/invisible
-		function onVisibilityChanged() {
-			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
-				cr_setSuspended(true);
-			else
-				cr_setSuspended(false);
-		};
-		
-		document.addEventListener("visibilitychange", onVisibilityChanged, false);
-		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
-		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
-		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
-		
-		if (navigator.serviceWorker && navigator.serviceWorker.register)
-		{
-			// Register an empty service worker to trigger web app install banners.
-			navigator.serviceWorker.register("sw.js", { scope: "./" });
-		}
-    </script>
+<html>
  
-<script src="./index/stat.js"></script><span id="cnzz_stat_icon_30098529"></span><script src="http://w.cnzz.com/c.php?id=30098529" type="text/javascript"></script><script src="http://hm.baidu.com/h.js?2330ee0a702a2807b28bfe00eaeb5bbf" type="text/javascript"></script>
- </div><audio controls="controls" style="display: none;"></audio><div style="position: static; width: 0px; height: 0px; border: none; padding: 0px; margin: 0px;"><div id="trans-tooltip"><div id="tip-left-top" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-left-top.png&quot;);"></div><div id="tip-top" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-top.png&quot;) repeat-x;"></div><div id="tip-right-top" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-right-top.png&quot;);"></div><div id="tip-right" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-right.png&quot;) repeat-y;"></div><div id="tip-right-bottom" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-right-bottom.png&quot;);"></div><div id="tip-bottom" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-bottom.png&quot;) repeat-x;"></div><div id="tip-left-bottom" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-left-bottom.png&quot;);"></div><div id="tip-left" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-left.png&quot;);"></div><div id="trans-content"></div></div><div id="tip-arrow-bottom" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-arrow-bottom.png&quot;);"></div><div id="tip-arrow-top" style="background: url(&quot;chrome-extension://ikkepelhgbcgmhhmcmpfkjmchccjblkd/imgs/map/tip-arrow-top.png&quot;);"></div></div></body><style type="text/css">#yddContainer{display:block;font-family:Microsoft YaHei;position:relative;width:100%;height:100%;top:-4px;left:-4px;font-size:12px;border:1px solid}#yddTop{display:block;height:22px}#yddTopBorderlr{display:block;position:static;height:17px;padding:2px 28px;line-height:17px;font-size:12px;color:#5079bb;font-weight:bold;border-style:none solid;border-width:1px}#yddTopBorderlr .ydd-sp{position:absolute;top:2px;height:0;overflow:hidden}.ydd-icon{left:5px;width:17px;padding:0px 0px 0px 0px;padding-top:17px;background-position:-16px -44px}.ydd-close{right:5px;width:16px;padding-top:16px;background-position:left -44px}#yddKeyTitle{float:left;text-decoration:none}#yddMiddle{display:block;margin-bottom:10px}.ydd-tabs{display:block;margin:5px 0;padding:0 5px;height:18px;border-bottom:1px solid}.ydd-tab{display:block;float:left;height:18px;margin:0 5px -1px 0;padding:0 4px;line-height:18px;border:1px solid;border-bottom:none}.ydd-trans-container{display:block;line-height:160%}.ydd-trans-container a{text-decoration:none;}#yddBottom{position:absolute;bottom:0;left:0;width:100%;height:22px;line-height:22px;overflow:hidden;background-position:left -22px}.ydd-padding010{padding:0 10px}#yddWrapper{color:#252525;z-index:10001;background:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ab20.png);}#yddContainer{background:#fff;border-color:#4b7598}#yddTopBorderlr{border-color:#f0f8fc}#yddWrapper .ydd-sp{background-image:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ydd-sprite.png)}#yddWrapper a,#yddWrapper a:hover,#yddWrapper a:visited{color:#50799b}#yddWrapper .ydd-tabs{color:#959595}.ydd-tabs,.ydd-tab{background:#fff;border-color:#d5e7f3}#yddBottom{color:#363636}#yddWrapper{min-width:250px;max-width:400px;}</style></html>
+ <head>
+ 
+ <meta charset="utf-8">
+ 
+ <title>俄罗斯方块</title>
+ 
+ <style type="text/css">
+  /*整个画布*/
+   
+  #tetris {
+  border: 6px solid grey;
+  }
+  /*游戏面板*/
+ </style>
+ 
+ </head>
+ 
+ <body>
+ 
+ <canvas id="tetris" width="565" height="576"></canvas>
+ 
+ <script type="text/javascript">
+  var canvas = document.getElementById("tetris");
+  var context = canvas.getContext("2d");
+  var padding = 6,
+  size = 32,
+  minX = 0,
+  maxX = 10,
+  minY = 0,
+  maxY = 18,
+  score = 0,
+  level = 1;
+  var gameMap = new Array(); //游戏地图，二维数组
+  var gameTimer;
+  initGameMap();
+  //绘制垂直线条
+  drawGrid();
+  var arrays = basicBlockType();
+  var blockIndex = getRandomIndex();
+  //随机画一个方块意思意思
+  var block = getPointByCode(blockIndex);
+  context.fillStyle = getBlockColorByIndex(blockIndex);
+  drawBlock(block);
+  /**
+ 
+  * 初始化游戏地图
+ 
+  */
+  function initGameMap() {
+  for (var i = 0; i < maxY; i++) {
+   var row = new Array();
+   for (var j = 0; j < maxX; j++) {
+   row[j] = false;
+   }
+   gameMap[i] = row;
+  }
+  }
+  /**
+ 
+  * 方块旋转
+ 
+  * 顺时针：
+ 
+  * A.x =O.y + O.x - B.y
+ 
+  * A.y =O.y - O.x + B.x
+ 
+  */
+  function round() {
+  //正方形的方块不响应旋转  
+  if (blockIndex == 4) {
+   return;
+  }
+  //循环处理当前的方块，找新的旋转点
+  for (var i = 1; i < block.length; i++) {
+   var o = block[0];
+   var point = block[i];
+   //旋转后的位置不能与现有格子的方块冲突
+   var tempX = o.y + o.x - point.y;
+   var tempY = o.y - o.x + point.x;
+   if (isOverZone(tempX, tempY)) {
+   return; //不可旋转
+   }
+  }
+  clearBlock();
+  //可以旋转，设置新的旋转后的坐标
+  for (var i = 1; i < block.length; i++) {
+   var o = block[0];
+   var point = block[i];
+   //旋转后的位置不能与现有格子的方块冲突
+   var tempX = o.y + o.x - point.y;
+   var tempY = o.y - o.x + point.x;
+   block[i] = {
+   x: tempX,
+   y: tempY
+   };
+  }
+  drawBlock();
+  }
+  function moveDown() {
+   
+  var overFlag = canOver();
+  if(overFlag){
+   //如果不能向下移动了，将当前的方块坐标载入地图
+   window.clearInterval(gameTimer);
+   add2GameMap();
+   //清除游戏区域内的不同颜色的格子，使用单一颜色重新绘制地图堆积物
+   redrawGameMap();
+   return;//游戏结束
+  }
+   
+  var flag = moveTo(0, 1);
+  //如果可以移动，则继续移动
+  if (flag) {
+   return;
+  }
+  //如果不能向下移动了，将当前的方块坐标载入地图
+  add2GameMap();
+   
+  //进行消行动作
+  clearLines();
+  //清除游戏区域内的不同颜色的格子，使用单一颜色重新绘制地图堆积物
+  redrawGameMap();
+  //如果不能向下移动，则继续下一个方块
+  nextBlock();
+  }
+   
+  /**
+ 
+  * 消行动作，返回消除的行数
+ 
+  */
+  function clearLines() {
+  var clearRowList = new Array();
+  for (var i = 0; i < maxY; i++) {
+   var flag = true;
+   for (var j = 0; j < maxX; j++) {
+   if (gameMap[i][j] == false) {
+    flag = false;
+    break;
+   }
+   }
+   if (flag) {
+   clearRowList.push(i); //记录消除行号的索引
+   }
+  }
+  var clearRows = clearRowList.length;
+  //所谓的消行就是将待消除行的索引，下方所有的格子上移动
+  for (var x = 0; x < clearRows; x++) {
+   var index = clearRowList[x];
+   for (var i = index; i > 0; i--) {
+   for (var j = 0; j < maxX; j++) {
+    gameMap[i][j] = gameMap[i - 1][j];
+   }
+   }
+  }
+  if (clearRows > 0) {
+   for (var i = 0; i < maxY; i++) {
+   //此处可以限制满足相关条件的方块进行清除操作&& j < clearRowList[clearRows - 1]
+   for (var j = 0; j < maxX; j++) {
+    if (gameMap[i][j] == false) {
+    clearBlockByPoint(i, j);
+    }
+   }
+   }
+  }
+  }
+  /**
+ 
+  * 重绘游戏地图
+ 
+  */
+  function redrawGameMap() {
+  drawGrid();
+  for (var i = 0; i < maxY; i++) {
+   for (var j = 0; j < maxX; j++) {
+   if (gameMap[i][j]) {
+    roadBlock(j, i);
+   }
+   }
+  }
+  }
+  /**
+ 
+  * 打印阴影地图
+ 
+  */
+  function drawShadowBlock() {
+  var currentBlock = block;
+  var shadowPoints = getCanMoveDown();
+  if (shadowPoints != null && shadowPoints.length > 0) {
+   for (var i = 0; i < shadowPoints.length; i++) {
+   var point = shadowPoints[i];
+   if (point == null) {
+    continue;
+   }
+   var start = point.x * size;
+   var end = point.y * size;
+   context.fillStyle = "#abcdef";
+   context.fillRect(start, end, size, size);
+   context.strokeStyle = "black";
+   context.strokeRect(start, end, size, size);
+   }
+  }
+  }
+  /**
+ 
+  * 返回最多可移动到的坐标位置（统计总共可以下落多少步骤）
+ 
+  * @return最多可移动到的坐标位置
+ 
+  */
+  function getCanMoveDown() {
+  var nps = canMove(0, 1, block);
+  var last = null;
+  if (nps != null) {
+   last = new Array();
+   while ((nps = canMove(0, 1, nps)) != null) {
+   if (nps != null) {
+    last = nps;
+   }
+   }
+  }
+  return last;
+  }
+   
+  function canOver(){
+  var flag = false;
+  for (var i = 0; i < block.length; i++) {
+   var point = block[i];
+   var x = point.x;
+   var y = point.y;
+   if(isOverZone(x , y)){
+   flag = true;
+   break;
+   }
+  }
+  return flag;
+  }
+   
+  function drawLevelScore() {
+   
+  }
+  /**
+ 
+  * 将不能移动的各种填充至地图
+ 
+  */
+  function add2GameMap() {
+  for (var i = 0; i < block.length; i++) {
+   var point = block[i];
+   var x = point.x;
+   var y = point.y;
+   var gameMapRow = gameMap[y]; //获取到地图的一行
+   gameMapRow[x] = true; //将此行中的某个格子标记为堆积物
+   gameMap[y] = gameMapRow; //再将行给设置回来
+  }
+  }
+  function moveLeft() {
+  moveTo(-1, 0);
+  }
+  function moveRight() {
+  moveTo(1, 0);
+  }
+  function quickDown() {
+  while (moveTo(0, 1));
+  }
+  function moveTo(moveX, moveY) {
+  var move = canMove(moveX, moveY, block); //判定是否可以移动
+  if (move == null) {
+   return false;
+  }
+  clearBlock();
+  for (var i = 0; i < block.length; i++) {
+   var point = block[i];
+   point.x = point.x + moveX;
+   point.y = point.y + moveY;
+  }
+  drawBlock();
+  return true;
+  }
+  /**
+ 
+  * 下一个方块
+ 
+  */
+  function nextBlock() {
+  blockIndex = getRandomIndex();
+  block = getPointByCode(blockIndex);
+  context.fillStyle = getBlockColorByIndex(blockIndex);
+  drawBlock();
+  }
+  document.onkeypress = function(evt) {
+  var key = window.event ? evt.keyCode : evt.which;
+  switch (key) {
+   case 119: //向上旋转 W
+   round();
+   break;
+   case 115: //向下移动 S
+   moveDown();
+   break;
+   case 97: //向左移动 A
+   moveLeft();
+   break;
+   case 100: //向右移动 D
+   moveRight();
+   break;
+   case 32: //空格键快速下落到底
+   quickDown();
+   break;
+  }
+  }
+  /**
+ 
+  * 判定是否可以移动
+ 
+  * @parammoveX 横向移动的个数
+ 
+  * @parammoveY 纵向移动的个数
+ 
+  */
+  function canMove(moveX, moveY, currentBlock) {
+  var flag = true;
+  var newPoints = new Array();
+  for (var i = 0; i < currentBlock.length; i++) {
+   var point = currentBlock[i];
+   var tempX = point.x + moveX;
+   var tempY = point.y + moveY;
+   if (isOverZone(tempX, tempY)) {
+   flag = false;
+   break;
+   }
+  }
+  if (flag) {
+   for (var i = 0; i < currentBlock.length; i++) {
+   var point = currentBlock[i];
+   var tempX = point.x + moveX;
+   var tempY = point.y + moveY;
+   newPoints[i] = {
+    x: tempX,
+    y: tempY
+   };
+   }
+   return newPoints;
+  }
+  return null;
+  }
+  /**
+ 
+  * 判定是否可以移动
+ 
+  * @paramx 预移动后的横坐标
+ 
+  * @paramy 预移动后的纵坐标
+ 
+  */
+  function isOverZone(x, y) {
+  return x < minX || x >= maxX || y < minY || y >= maxY || gameMap[y][x];
+  }
+  document.body.click();
+   
+  gameTimer = window.setInterval(moveDown , 800);
+   
+  /**
+ 
+  * 初始化方块的基础数据
+ 
+  */
+  function basicBlockType() {
+  var arrays = new Array();
+  arrays[0] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 3,
+   y: 0
+  }, {
+   x: 5,
+   y: 0
+  }, {
+   x: 6,
+   y: 0
+  }];
+  arrays[1] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 3,
+   y: 0
+  }, {
+   x: 5,
+   y: 0
+  }, {
+   x: 4,
+   y: 1
+  }];
+  arrays[2] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 3,
+   y: 0
+  }, {
+   x: 5,
+   y: 0
+  }, {
+   x: 3,
+   y: 1
+  }];
+  arrays[3] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 5,
+   y: 0
+  }, {
+   x: 3,
+   y: 1
+  }, {
+   x: 4,
+   y: 1
+  }];
+  arrays[4] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 5,
+   y: 0
+  }, {
+   x: 4,
+   y: 1
+  }, {
+   x: 5,
+   y: 1
+  }];
+  arrays[5] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 3,
+   y: 0
+  }, {
+   x: 5,
+   y: 0
+  }, {
+   x: 5,
+   y: 1
+  }];
+  arrays[6] = [{
+   x: 4,
+   y: 0
+  }, {
+   x: 3,
+   y: 0
+  }, {
+   x: 4,
+   y: 1
+  }, {
+   x: 5,
+   y: 1
+  }];
+  return arrays;
+  }
+  function basicBlockColor() {
+  return ["#A00000", "#A05000", "#A0A000", "#00A000", "#00A0A0", "#0000A0", "#A000A0"];
+  }
+  function getBlockColorByIndex(typeCodeIndex) {
+  var arrays = basicBlockColor();
+  return arrays[typeCodeIndex];
+  }
+  /**
+ 
+  * 根据编号返回指定编号的方块
+ 
+  * @paramtypeCodeIndex 方块编号索引
+ 
+  */
+  function getPointByCode(typeCodeIndex) {
+  var arrays = basicBlockType();
+  return arrays[typeCodeIndex];
+  }
+  /**
+ 
+  * 获取随即出现方块的范围值
+ 
+  * @paramlens 随机数的范围
+ 
+  */
+  function getRandomIndex() {
+  return parseInt(Math.random() * (arrays.length - 1), 10);
+  }
+  /**
+ 
+  * 绘制方块，按格子单个绘制
+ 
+  */
+  function drawBlock() {
+  drawGrid();
+  for (var i = 0; i < block.length; i++) {
+   var point = block[i];
+   var start = point.x * size;
+   var end = point.y * size;
+   context.fillStyle = getBlockColorByIndex(blockIndex);
+   context.fillRect(start, end, size, size);
+   context.strokeStyle = "black";
+   context.strokeRect(start, end, size, size);
+  }
+  drawShadowBlock();
+  }
+  /**
+ 
+  * 绘制障碍物
+ 
+  */
+  function roadBlock(x, y) {
+  context.fillStyle = "darkgray";
+  var start = x * size;
+  var end = y * size;
+  context.fillRect(start, end, size, size);
+  }
+  /**
+ 
+  * 绘制新的方块先清除之前的方块
+ 
+  */
+  function clearBlock() {
+  for (var i = 0; i < block.length; i++) {
+   var point = block[i];
+   var start = point.x * size;
+   var end = point.y * size;
+   context.clearRect(start, end, size, size);
+  }
+  }
+  /**
+ 
+  * 初始化一个新的行
+ 
+  */
+  function initGameMapRow() {
+  var array = new Array();
+  for (var i = 0; i < maxX; i++) {
+   array[i] = false;
+  }
+  return array;
+  }
+  /**
+ 
+  * 根据坐标清除指定格子的内容
+ 
+  * @paramx 横坐标
+ 
+  * @paramy 纵坐标
+ 
+  */
+  function clearBlockByPoint(x, y) {
+  var start = y * size;
+  var end = x * size;
+  context.clearRect(start, end, size, size);
+  }
+  /**
+ 
+  * 清掉所有位置的空白格的绘图
+ 
+  */
+  function clearAllNullPoint() {
+  for (var i = 0; i < maxY; i++) {
+   for (var j = 0; j < maxX; j++) {
+   if (gameMap[i][j] == false) {
+    clearBlockByPoint(i, j);
+   }
+   }
+  }
+  }
+  /**
+ 
+  * 绘制网格线
+ 
+  * @paramcontext 绘图对象
+ 
+  */
+  function drawGrid() {
+  clearAllNullPoint(); //清除掉当前方块下落位置造成的阴影
+  context.strokeStyle = "grey"; //画笔颜色
+  for (var i = 0; i <= maxX; i++) {
+   var start = i * size;
+   var end = start + size;
+   context.beginPath();
+   context.moveTo(start, 0);
+   context.lineTo(size * i, size * maxY);
+   context.stroke();
+   context.closePath();
+  }
+  //绘制水平线条
+  for (var i = 0; i <= maxY; i++) {
+   var start = i * size;
+   var end = start + size;
+   context.beginPath();
+   context.moveTo(0, size * i);
+   context.lineTo(size * maxX, size * i);
+   context.stroke();
+   context.closePath();
+  }
+  }
+ </script>
+ 
+ </body>
+ 
+</html>
