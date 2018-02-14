@@ -18,7 +18,7 @@ ARC = true;
 /* trembling + blur = fun */
 TREMBLING = 0; /* 0 - infinity */
 
-FANCY_FONT = "Arial";
+//FANCY_FONT = "Arial";
 
 BACKGROUND = "#333";
 
