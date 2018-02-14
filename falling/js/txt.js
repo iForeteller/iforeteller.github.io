@@ -4,7 +4,7 @@ PULSATION = true;
 PULSATION_PERIOD = 600;
 PARTICLE_RADIUS = 4;
 
-/* disable blur before using blink */
+/* disable blur before using blink  */
 
 BLINK = false;
 
