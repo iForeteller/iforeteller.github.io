@@ -18,7 +18,7 @@ ARC = true;
 /* trembling + blur = fun */
 TREMBLING = 0; /* 0 - infinity */
 
-FANCY_FONT = "Arial";
+FANCY_FONT = "MicroSoft YaHei";
 
 BACKGROUND = "#333";
 
@@ -27,7 +27,7 @@ BLENDING = true;
 /* if empty the text will be a random number */
 var TEXT;
 num = 0;
-TEXTArray = ["我", "爱", "你", "爱", "着", "你", "就", "像", "老", "鼠", "爱", "大", "米"];
+TEXTArray = ["我", "爱", "你","就", "像", "老", "鼠", "爱", "大", "米"];
 
 QUALITY_TO_FONT_SIZE = [10, 12, 40, 50, 100, 350];
 QUALITY_TO_SCALE = [20, 6, 4, 2, 0.9, 0.5];
