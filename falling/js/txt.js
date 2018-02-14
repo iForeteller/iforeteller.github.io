@@ -4,7 +4,7 @@ PULSATION = true;
 PULSATION_PERIOD = 600;
 PARTICLE_RADIUS = 4;
 
-/* disable blur before using blink  */
+/* disable blur before using blink */
 
 BLINK = false;
 
@@ -27,7 +27,7 @@ BLENDING = true;
 /* if empty the text will be a random number */
 var TEXT;
 num = 0;
-TEXTArray = ["我", "爱", "你","就", "像", "老", "鼠", "爱", "大", "米"];
+TEXTArray = ["你", "永远", "也", "看不见", "我", "站在", "窗边", "最难过", "的样子", "因为", "你", "知道的", "在", "所有", "看不见", "你的", "时候", "才是", "最", "难", "过", "的", "我", "爱", "你"];
 
 QUALITY_TO_FONT_SIZE = [10, 12, 40, 50, 100, 350];
 QUALITY_TO_SCALE = [20, 6, 4, 2, 0.9, 0.5];
